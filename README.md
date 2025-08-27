@@ -20,7 +20,6 @@ Click here to see the project live!
 <img width="1313" height="912" alt="Screenshot 2025-08-27 124421" src="https://github.com/user-attachments/assets/9e14b420-89ca-40a1-8488-5f66a4df9776" />
 
 
-Replace the placeholder image link with a real screenshot of your project.
 
 🚀 How to Use
 Simply open the index.html file in your web browser. No special setup or server is required.
