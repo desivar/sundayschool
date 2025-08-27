@@ -16,7 +16,7 @@ Visually Engaging Design: The design is clean and inviting, with custom fonts, i
 Click here to see the project live!
 
 📸 Project Image
-!(https://via.placeholder.com/800x600.png?text=Preview+of+the+Project)
+!()
 
 Replace the placeholder image link with a real screenshot of your project.
 
