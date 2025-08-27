@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendiendo del Evangelio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pastel-blue: #b5e0f3;
+            --pastel-green: #c9f0c4;
+            --pastel-yellow: #fef6aa;
+            --pastel-pink: #ffd1dc;
+            --pastel-purple: #d9c5ee;
+            --pastel-orange: #ffdfba;
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --text-dark: #5a5a5a;
+            --text-light: #7c7c7c;
+            --shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(120deg, var(--pastel-blue), var(--pastel-green), var(--pastel-yellow));
+            min-height: 100vh;
+            color: var(--text-dark);
+            padding: 20px;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+        }
+
+        .main-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #6b8e23;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 25px;
+        }
+
+        .language-toggle {
+            background: var(--pastel-purple);
+            color: var(--text-dark);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .language-toggle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            background: var(--pastel-blue);
+        }
+
+        .progress-container {
+            margin: 40px auto;
+            max-width: 800px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pastel-pink), var(--pastel-purple), var(--pastel-blue));
+            width: 0%;
+            transition: width 1s ease;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .principle-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .principle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--pastel-pink), var(--pastel-purple), var(--pastel-blue));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .principle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(31, 38, 135, 0.2);
+        }
+
+        .principle-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .principle-card.active {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            display: block;
+            height: 90px;
+        }
+
+        .card-icon i {
+            background: linear-gradient(45deg, #6b8e23, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.1));
+        }
+
+        .card-title {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #6b8e23;
+        }
+
+        .card-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .hidden-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s ease;
+            text-align: left;
+        }
+
+        .hidden-content.show {
+            max-height: 500px;
+            margin-top: 25px;
+        }
+
+        .hidden-content p {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .gospel-library-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--pastel-green);
+            color: var(--text-dark);
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .gospel-library-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: var(--pastel-blue);
+        }
+
+        .completion-message {
+            text-align: center;
+            padding: 50px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-top: 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+        }
+
+        .completion-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .completion-title {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 2.5rem;
+            color: #6b8e23;
+            margin-bottom: 20px;
+        }
+
+        .completion-text {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+
+        .sticker {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .sticker-1 {
+            top: 10%;
+            left: 5%;
+            font-size: 8rem;
+            color: #ff9ec0;
+        }
+
+        .sticker-2 {
+            top: 15%;
+            right: 5%;
+            font-size: 7rem;
+            color: #7b68ee;
+        }
+
+        .sticker-3 {
+            bottom: 10%;
+            left: 8%;
+            font-size: 6rem;
+            color: #6b8e23;
+        }
+
+        .sticker-4 {
+            bottom: 15%;
+            right: 10%;
+            font-size: 9rem;
+            color: #5eb6f7;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .principle-card {
+                padding: 20px;
+            }
+            
+            .card-icon {
+                font-size: 3rem;
+                height: 70px;
+            }
+            
+            .sticker {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sticker sticker-1">
+        <i class="fas fa-dove"></i>
+    </div>
+    <div class="sticker sticker-2">
+        <i class="fas fa-hands-praying"></i>
+    </div>
+    <div class="sticker sticker-3">
+        <i class="fas fa-church"></i>
+    </div>
+    <div class="sticker sticker-4">
+        <i class="fas fa-book-bible"></i>
+    </div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title" id="mainTitle">
+                <i class="fas fa-seedling"></i> Aprendiendo del Evangelio <i class="fas fa-seedling"></i>
+            </h1>
+            <p class="subtitle" id="subtitle">
+                Descubre cómo recibir revelación personal de nuestro Padre Celestial
+            </p>
+            <button class="language-toggle" onclick="toggleLanguage()" id="langToggle">
+                <i class="fas fa-language"></i> <span>🇺🇸 English</span>
+            </button>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-label">
+                <span id="progressStart">Comienza tu viaje</span>
+                <span id="progressComplete">¡Completado!</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="principle-card faith-card" onclick="activateCard('faith')">
+                <div class="card-icon">
+                    <i class="fas fa-pray"></i>
+                </div>
+                <h2 class="card-title" id="faithTitle">Actuar con Fe</h2>
+                <p class="card-description" id="faithDesc">
+                    Confía en Dios y acude a Él primero a través de la oración sincera
+                </p>
+                <div class="hidden-content" id="faithContent">
+                    <p id="faithDetails">
+                        Cuando oramos con fe sincera, estudiamos las escrituras y obedecemos los mandamientos, 
+                        nuestro Padre Celestial nos enseña línea por línea. ¡Él quiere ayudarnos!
+                    </p>
+                    <a href="https://www.churchofjesuschrist.org/study/manual/gospel-topics/faith" 
+                       class="gospel-library-link" target="_blank" id="faithLink">
+                        <i class="fas fa-book-open"></i> Aprender más sobre la Fe
+                    </a>
+                </div>
+            </div>
+
+            <div class="principle-card eternal-card" onclick="activateCard('eternal')">
+                <div class="card-icon">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <h2 class="card-title" id="eternalTitle">Ver con Ojos Eternos</h2>
+                <p class="card-description" id="eternalDesc">
+                    Analiza las preguntas desde la perspectiva del Plan de Salvación
+                </p>
+                <div class="hidden-content" id="eternalContent">
+                    <p id="eternalDetails">
+                        Cuando vemos las cosas como nuestro Padre Celestial las ve, podemos entender mejor 
+                        Su plan para nosotros y encontrar respuestas a nuestras preguntas.
+                    </p>
+                    <a href="https://www.churchofjesuschrist.org/study/manual/gospel-topics/plan-of-salvation" 
+                       class="gospel-library-link" target="_blank" id="eternalLink">
+                        <i class="fas fa-rainbow"></i> Plan de Salvación
+                    </a>
+                </div>
+            </div>
+
+            <div class="principle-card sources-card" onclick="activateCard('sources')">
+                <div class="card-icon">
+                    <i class="fas fa-bible"></i>
+                </div>
+                <h2 class="card-title" id="sourcesTitle">Usar Fuentes Divinas</h2>
+                <p class="card-description" id="sourcesDesc">
+                    Busca respuestas en las escrituras, profetas y el Espíritu Santo
+                </p>
+                <div class="hidden-content" id="sourcesContent">
+                    <p id="sourcesDetails">
+                        Dios nos ha dado fuentes especiales para aprender la verdad: las escrituras, 
+                        los profetas vivientes, y el Espíritu Santo que nos susurra al corazón.
+                    </p>
+                    <a href="https://www.churchofjesuschrist.org/study/scriptures" 
+                       class="gospel-library-link" target="_blank" id="sourcesLink">
+                        <i class="fas fa-scroll"></i> Leer las Escrituras
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="completion-message" id="completionMessage">
+            <h2 class="completion-title" id="completionTitle">
+                <i class="fas fa-award"></i> ¡Felicidades! <i class="fas fa-award"></i>
+            </h2>
+            <p class="completion-text" id="completionText">
+                Has aprendido los tres principios para recibir conocimiento espiritual. 
+                ¡Ahora puedes usar estos principios para hacer preguntas a nuestro Padre Celestial 
+                y recibir Sus respuestas através del Espíritu Santo!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let currentLanguage = 'es';
+        let activeCards = new Set();
+        let totalCards = 3;
+
+        const translations = {
+            es: {
+                mainTitle: '<i class="fas fa-seedling"></i> Aprendiendo del Evangelio <i class="fas fa-seedling"></i>',
+                subtitle: 'Descubre cómo recibir revelación personal de nuestro Padre Celestial',
+                langToggle: '🇺🇸 English',
+                progressStart: 'Comienza tu viaje',
+                progressComplete: '¡Completado!',
+                faithTitle: 'Actuar con Fe',
+                faithDesc: 'Confía en Dios y acude a Él primero a través de la oración sincera',
+                faithDetails: 'Cuando oramos con fe sincera, estudiamos las escrituras y obedecemos los mandamientos, nuestro Padre Celestial nos enseña línea por línea. ¡Él quiere ayudarnos!',
+                faithLink: '<i class="fas fa-book-open"></i> Aprender más sobre la Fe',
+                eternalTitle: 'Ver con Ojos Eternos',
+                eternalDesc: 'Analiza las preguntas desde la perspectiva del Plan de Salvación',
+                eternalDetails: 'Cuando vemos las cosas como nuestro Padre Celestial las ve, podemos entender mejor Su plan para nosotros y encontrar respuestas a nuestras preguntas.',
+                eternalLink: '<i class="fas fa-rainbow"></i> Plan de Salvación',
+                sourcesTitle: 'Usar Fuentes Divinas',
+                sourcesDesc: 'Busca respuestas en las escrituras, profetas y el Espíritu Santo',
+                sourcesDetails: 'Dios nos ha dado fuentes especiales para aprender la verdad: las escrituras, los profetas vivientes, y el Espíritu Santo que nos susurra al corazón.',
+                sourcesLink: '<i class="fas fa-scroll"></i> Leer las Escrituras',
+                completionTitle: '<i class="fas fa-award"></i> ¡Felicidades! <i class="fas fa-award"></i>',
+                completionText: 'Has aprendido los tres principios para recibir conocimiento espiritual. ¡Ahora puedes usar estos principios para hacer preguntas a nuestro Padre Celestial y recibir Sus respuestas através del Espíritu Santo!'
+            },
+            en: {
+                mainTitle: '<i class="fas fa-seedling"></i> Learning the Gospel <i class="fas fa-seedling"></i>',
+                subtitle: 'Discover how to receive personal revelation from our Heavenly Father',
+                langToggle: '🇪🇸 Español',
+                progressStart: 'Begin your journey',
+                progressComplete: 'Completed!',
+                faithTitle: 'Act in Faith',
+                faithDesc: 'Trust in God and come to Him first through sincere prayer',
+                faithDetails: 'When we pray with sincere faith, study the scriptures, and obey commandments, our Heavenly Father teaches us line upon line. He wants to help us!',
+                faithLink: '<i class="fas fa-book-open"></i> Learn more about Faith',
+                eternalTitle: 'See with Eternal Eyes',
+                eternalDesc: 'Examine questions from the perspective of the Plan of Salvation',
+                eternalDetails: 'When we see things as our Heavenly Father sees them, we can better understand His plan for us and find answers to our questions.',
+                eternalLink: '<i class="fas fa-rainbow"></i> Plan of Salvation',
+                sourcesTitle: 'Use Divine Sources',
+                sourcesDesc: 'Seek answers in scriptures, prophets, and the Holy Spirit',
+                sourcesDetails: 'God has given us special sources to learn truth: the scriptures, living prophets, and the Holy Spirit that whispers to our hearts.',
+                sourcesLink: '<i class="fas fa-scroll"></i> Read the Scriptures',
+                completionTitle: '<i class="fas fa-award"></i> Congratulations! <i class="fas fa-award"></i>',
+                completionText: 'You have learned the three principles for receiving spiritual knowledge. Now you can use these principles to ask questions to our Heavenly Father and receive His answers through the Holy Spirit!'
+            }
+        };
+
+        function activateCard(cardType) {
+            if (activeCards.has(cardType)) return;
+            
+            activeCards.add(cardType);
+            const card = document.querySelector(`.${cardType}-card`);
+            const content = document.getElementById(`${cardType}Content`);
+            
+            card.classList.add('active');
+            content.classList.add('show');
+            
+            // Update progress
+            updateProgress();
+            
+            // Check if all cards are activated
+            if (activeCards.size === totalCards) {
+                setTimeout(() => {
+                    document.body.classList.add('lighting-up');
+                    showCompletionMessage();
+                }, 1000);
+            }
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const percentage = (activeCards.size / totalCards) * 100;
+            progressFill.style.width = percentage + '%';
+        }
+
+        function showCompletionMessage() {
+            setTimeout(() => {
+                document.getElementById('completionMessage').classList.add('show');
+            }, 1500);
+        }
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+            updateLanguage();
+        }
+
+        function updateLanguage() {
+            const t = translations[currentLanguage];
+            
+            Object.keys(t).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (key === 'langToggle') {
+                        element.querySelector('span').textContent = t[key];
+                    } else {
+                        element.innerHTML = t[key];
+                    }
+                }
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = currentLanguage;
+        }
+
+        // Initialize the page
+        window.addEventListener('load', () => {
+            updateLanguage();
+        });
+    </script>
+</body>
+</html>
