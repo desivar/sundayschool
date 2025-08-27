@@ -16,7 +16,8 @@ Visually Engaging Design: The design is clean and inviting, with custom fonts, i
 Click here to see the project live!
 
 📸 Project Image
-!(https://github.com/desivar/sundayschool/blob/main/images/Screenshot%202025-08-27%20124421.png)
+<img width="1313" height="912" alt="Screenshot 2025-08-27 124421" src="https://github.com/user-attachments/assets/9e14b420-89ca-40a1-8488-5f66a4df9776" />
+
 
 Replace the placeholder image link with a real screenshot of your project.
 
