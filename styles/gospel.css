@@ -1,0 +1,336 @@
+
+    :root {
+        --main-bg: #EFF7F6;
+        --sky-blue: #0496ff;
+        --soft-turquoise: #B2F7EF;
+        --light-pink: #efefd0;
+        --soft-pink: #F7D6E0;
+        
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.5);
+        --shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+
+        /* Neutrals for text and background */
+        --text-dark: #3a3a3a;
+        --text-light: #6a6a6a;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Quicksand', sans-serif;
+        background: var(--main-bg);
+        min-height: 100vh;
+        color: var(--text-dark);
+        padding: 20px;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 30px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+    }
+
+    .main-title {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: var(--sky-blue);
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .subtitle {
+        font-size: 1.3rem;
+        color: var(--text-light);
+        margin-bottom: 25px;
+    }
+
+    .language-toggle {
+        background: var(--light-pink);
+        color: var(--text-dark);
+        border: none;
+        padding: 12px 25px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        font-family: 'Quicksand', sans-serif;
+    }
+
+    .language-toggle:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        background: var(--soft-turquoise);
+    }
+
+    .progress-container {
+        margin: 40px auto;
+        max-width: 800px;
+    }
+
+    .progress-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--sky-blue), var(--soft-turquoise));
+        width: 0%;
+        transition: width 1s ease;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .progress-fill::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+        animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+
+    .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .principle-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .principle-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(90deg, var(--sky-blue), var(--soft-turquoise));
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+
+    .principle-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(31, 38, 135, 0.2);
+    }
+
+    .principle-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .principle-card.active {
+        transform: translateY(-5px);
+    }
+
+    .card-icon {
+        font-size: 4rem;
+        margin-bottom: 25px;
+        display: block;
+        height: 90px;
+    }
+
+    .card-icon i {
+        background: linear-gradient(45deg, var(--sky-blue), var(--soft-turquoise));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.1));
+    }
+
+    .card-title {
+        font-family: 'Patrick Hand', cursive;
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        color: var(--sky-blue);
+    }
+
+    .card-description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: var(--text-dark);
+        margin-bottom: 20px;
+    }
+
+    .hidden-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.8s ease;
+        text-align: left;
+    }
+
+    .hidden-content.show {
+        max-height: 500px;
+        margin-top: 25px;
+    }
+
+    .hidden-content p {
+        margin-bottom: 20px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 15px;
+        font-size: 1.05rem;
+        line-height: 1.7;
+    }
+
+    .gospel-library-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--light-pink);
+        color: var(--text-dark);
+        padding: 15px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .gospel-library-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        background: var(--soft-turquoise);
+    }
+
+    .completion-message {
+        text-align: center;
+        padding: 50px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        margin-top: 40px;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 1s ease;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow);
+    }
+
+    .completion-message.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .completion-title {
+        font-family: 'Patrick Hand', cursive;
+        font-size: 2.5rem;
+        color: var(--sky-blue);
+        margin-bottom: 20px;
+    }
+
+    .completion-text {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.7;
+        color: var(--text-dark);
+    }
+
+    .sticker {
+        position: absolute;
+        z-index: -1;
+        opacity: 0.15;
+        pointer-events: none;
+    }
+
+    /* Sticker colors updated to match the new palette */
+    .sticker-1 {
+        top: 10%;
+        left: 5%;
+        font-size: 8rem;
+        color: var(--sky-blue);
+    }
+
+    .sticker-2 {
+        top: 15%;
+        right: 5%;
+        font-size: 7rem;
+        color: var(--soft-turquoise);
+    }
+
+    .sticker-3 {
+        bottom: 10%;
+        left: 8%;
+        font-size: 6rem;
+        color: var(--light-pink);
+    }
+
+    .sticker-4 {
+        bottom: 15%;
+        right: 10%;
+        font-size: 9rem;
+        color: var(--soft-pink);
+    }
+
+    @media (max-width: 768px) {
+        .dashboard {
+            grid-template-columns: 1fr;
+        }
+        
+        .main-title {
+            font-size: 2.5rem;
+        }
+        
+        .principle-card {
+            padding: 20px;
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            height: 70px;
+        }
+        
+        .sticker {
+            display: none;
+        }
+    }
